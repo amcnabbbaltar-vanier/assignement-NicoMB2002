@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;  // Make sure to include the TextMeshPro namespace
+using TMPro;
 
 public class GameOverController : MonoBehaviour
 {
