@@ -27,6 +27,11 @@ public class CharacterMovement : MonoBehaviour
     {
         Move();
         HandleJumpInput();
+
+        if (animator) {
+            animator.SetBool("IsFalling", rb.velocity.y < -0.1f && !isGrounded);
+            animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+        }
     }
 
     void Move()
@@ -34,13 +39,11 @@ public class CharacterMovement : MonoBehaviour
         float move = Input.GetAxis("Horizontal");
         float currentSpeed = walkSpeed;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift)) {
             currentSpeed *= runMultiplier;
+        }
 
         rb.velocity = new Vector3(move * currentSpeed, rb.velocity.y, 0);
-
-        if (animator)
-            animator.SetFloat("Speed", Mathf.Abs(move));
     }
 
     void HandleJumpInput()
@@ -56,15 +59,18 @@ public class CharacterMovement : MonoBehaviour
         {
             jumpHoldTime += Time.deltaTime;
 
-            if (jumpHoldTime >= maxHoldTime)
+            if (jumpHoldTime >= maxHoldTime) {
                 PerformGroundJump();
+            }
         }
 
-        if (isChargingJump && Input.GetKeyUp(KeyCode.Space))
+        if (isChargingJump && Input.GetKeyUp(KeyCode.Space)) {
             PerformGroundJump();
+        }
 
-        if (!isGrounded && hasDoubleJumpPower && canDoubleJump && Input.GetKeyDown(KeyCode.Space))
+        if (!isGrounded && hasDoubleJumpPower && canDoubleJump && Input.GetKeyDown(KeyCode.Space)) {
             PerformDoubleJump();
+        }
     }
 
     void PerformGroundJump()
@@ -79,8 +85,9 @@ public class CharacterMovement : MonoBehaviour
 
         canDoubleJump = true;
 
-        if (animator)
-            animator.SetTrigger("Jump");
+        if (animator) {
+            animator.SetTrigger("Flip");
+        }
     }
 
     void PerformDoubleJump()
@@ -90,8 +97,9 @@ public class CharacterMovement : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         rb.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
 
-        if (animator)
-            animator.SetTrigger("DoubleJump");
+        if (animator) {
+            animator.SetTrigger("Flip");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -99,14 +107,21 @@ public class CharacterMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            if (animator)
+            {
+                isGrounded = true;
+                canDoubleJump = false;
+            }
+
             canDoubleJump = false;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground")) {
             isGrounded = false;
+        }
     }
 
 }

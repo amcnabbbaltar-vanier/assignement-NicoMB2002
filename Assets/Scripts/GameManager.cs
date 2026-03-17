@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         if (health <= 0)
         {
             ResetGame();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("VictoryScene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScene");
 
         }
     }
