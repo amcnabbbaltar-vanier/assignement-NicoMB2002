@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GoalFlag : MonoBehaviour
 {
-    public int nextLevelIndex = 2;
-
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -15,13 +13,16 @@ public class GoalFlag : MonoBehaviour
 
         if (GameManager.Instance.HasEnoughScore())
         {
-            SceneManager.LoadScene(nextLevelIndex);
+            int currentIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentIndex + 1);
+
             Debug.Log("Level completed");
         }
         else
         {
             Debug.Log("You need more score pickups before finishing the level!");
         }
+
     }
 
 

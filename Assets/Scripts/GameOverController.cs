@@ -22,5 +22,11 @@ public class GameOverController : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    public void RestartLevel2()
+    {
+        SceneManager.LoadScene(2);
+    }
+
 }
 
